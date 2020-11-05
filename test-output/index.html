@@ -102,7 +102,7 @@
                     <div class="method-list-content passed suite-Default_suite">
                       <span>
                         <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="restAPITesting.restAssuredTest.basicTest" hash-for-method="addPet">addPet</a> <!-- method navigator-link -->
+                        <a href="#" class="method navigator-link" panel-name="suite-Default_suite" title="restAPITesting.restAssuredTest.basicTest" hash-for-method="getPet">getPet</a> <!-- method navigator-link -->
                       </span>
                       <br/>
                     </div> <!-- method-list-content passed suite-Default_suite -->
@@ -125,9 +125,9 @@
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="addPet">
-                  </a> <!-- addPet -->
-                  <span class="method-name">addPet</span>
+                  <a name="getPet">
+                  </a> <!-- getPet -->
+                  <span class="method-name">getPet</span>
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
@@ -135,7 +135,7 @@
         </div> <!-- panel Default_suite -->
         <div panel-name="test-xml-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">/private/var/folders/k_/n1nt8q6522xgnpk7dfdxfvdm0000gq/T/testng-eclipse--974896468/testng-customsuite.xml</span>
+            <span class="header-content">/private/var/folders/k_/n1nt8q6522xgnpk7dfdxfvdm0000gq/T/testng-eclipse-1718968294/testng-customsuite.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
@@ -186,9 +186,9 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'addPet')
+data.setCell(0, 1, 'getPet')
 data.setCell(0, 2, 'restAPITesting.restAssuredTest.basicTest')
-data.setCell(0, 3, 2502);
+data.setCell(0, 3, 2427);
 window.suiteTableData['Default_suite']= { tableData: data, tableDiv: 'times-div-Default_suite'}
 return data;
 }
@@ -208,13 +208,17 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Default_suite" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">1 ignored method</span>
+            <span class="header-content">3 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="ignored-class-div">
               <span class="ignored-class-name">restAPITesting.restAssuredTest.basicTest</span>
               <div class="ignored-methods-div">
+                <span class="ignored-method-name">userLogin</span>
+                <br/>
                 <span class="ignored-method-name">getPetByStatus</span>
+                <br/>
+                <span class="ignored-method-name">addAndDeletePet</span>
                 <br/>
               </div> <!-- ignored-methods-div -->
             </div> <!-- ignored-class-div -->
@@ -232,8 +236,8 @@ return data;
                 <span class="method-start">0 ms</span>
               </div> <!-- configuration-class before -->
               <div class="test-method">
-                <span class="method-name">addPet</span>
-                <span class="method-start">452 ms</span>
+                <span class="method-name">getPet</span>
+                <span class="method-start">419 ms</span>
               </div> <!-- test-method -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
