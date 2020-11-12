@@ -4,9 +4,13 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThan;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.http.params.CoreConnectionPNames;
+import org.awaitility.Awaitility;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -15,15 +19,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import io.restassured.RestAssured;
+import io.restassured.config.HttpClientConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.response.Response;
 import models.Category;
 import models.Pet;
 import models.Tags;
+import specs.RequestSpecifications;
+import specs.ResponseSpecifications;
 
 
 public class basicTest {
 	private static final String BASE_URL = "https://petstore.swagger.io";
 	private static final String BASE_PATH = "/v2";
+	private static final RestAssuredConfig configWithWait = RestAssured.config().httpClient(HttpClientConfig.httpClientConfig().setParam(CoreConnectionPNames.CONNECTION_TIMEOUT, 1000).setParam(CoreConnectionPNames.SO_TIMEOUT, 1000));
 
 	@BeforeClass
 	public void setUp(){
@@ -86,17 +95,15 @@ public class basicTest {
 		System.out.println(json);
 
 		given()
-		.contentType("application/json")
+		.spec(RequestSpecifications.postRequest)
 		.body(pet)
 		.when()
-		.post("/pet")
+		.post(EndPoints.ADD_PET)
 		.then()
-		.log()
-		.body()
+		.spec(ResponseSpecifications.statusCode200)
 		.body("name", equalTo("Murzik"))
 		.body("category.name", equalTo("animals"))
-		.body("tags[1].name", equalTo("homeless"))
-		.statusCode(200);
+		.body("tags[1].name", equalTo("homeless"));
 
 		//		given()
 		//		.header("api_key","special-key")
@@ -123,7 +130,7 @@ public class basicTest {
 		System.out.println(header);
 	}
 
-	@Test
+	@Ignore @Test
 	public void getPet(){
 		int petId = 3;
 		Response res = given()
@@ -131,11 +138,45 @@ public class basicTest {
 				.when()
 				.get("/pet/{petId}")
 				.then()
-				.time(lessThan(20L))
+				.time(lessThan(2L), TimeUnit.MILLISECONDS)
 				.extract()
 				.response();
 		String jsonResponse = res.getBody().asString();
 		Pet pet = new Gson().fromJson(jsonResponse, Pet.class);
 		System.out.println(pet.getName());
+	}
+
+	public int getPetStatusCode() {
+		int petId = 3;
+		return given()
+				.pathParam("petId", petId)
+				.config(configWithWait)
+				.when()
+				.get("/pet/{petId}")
+				.then()
+				.extract()
+				.statusCode();
+	}
+
+	@Test
+	public void getPetAsync(){
+		Awaitility.await().atMost(10, TimeUnit.SECONDS).until(() ->this.getPetStatusCode() == 200);
+	}
+
+
+	@Ignore @Test
+	public void uploadImage() {
+		int petId = 3;
+		File catPhoto = new File("src/test/java/resources/cat.png");
+		given()
+		.pathParam("petId", petId)
+		.formParams("additionalMetadata", "photo of my cat")
+		.multiPart("file", catPhoto, "application/json")
+		.when()
+		.post("/pet/{petId}/uploadImage")
+		.then()
+		.log()
+		.all()
+		.statusCode(200);
 	}
 }
