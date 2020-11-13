@@ -6,7 +6,7 @@
       <class name="restAPITesting.restAssuredTest.basicTest">
         <methods>
           <include name="setUp"/>
-          <include name="getPet"/>
+          <include name="getPetAsync"/>
         </methods>
       </class> <!-- restAPITesting.restAssuredTest.basicTest -->
     </classes>
